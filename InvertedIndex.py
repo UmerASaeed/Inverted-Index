@@ -43,6 +43,7 @@ stopfile= open(r"C:\Users\umers\OneDrive\Desktop\corpus\stoplist (1).txt","r")
 stpwords = stopfile.read()
 stop_words = str(stpwords)
 stop_words = stop_words.splitlines()
+stopfile.close()
 
 for files in filenames:
     f1 = open(mypath + "\\" + files, "r",errors='ignore')
@@ -127,6 +128,7 @@ for files in filenames:
     Tokens = []
     Stem_Tokens = []
     res = []
+    f1.close()
 
 
 print('out')
@@ -145,15 +147,29 @@ f=open(r"C:\Users\umers\OneDrive\Desktop\corpus\docids.txt","x",encoding='utf-8'
 for item in file_array:
     f.write(item + "\n" )
 
+f.close()
 
-f=open(r"C:\Users\umers\OneDrive\Desktop\corpus\TermIdsDict.txt","x",encoding='utf-8')
+f=open(r"C:\Users\umers\OneDrive\Desktop\corpus\TermIds.txt","x",encoding='utf-8')
 for item in final_terms:
     f.write(str(unique_term) + "/" + item + '\n')
     unique_term=unique_term+1
 
+f.close()
 
 f=open(r"C:\Users\umers\OneDrive\Desktop\corpus\term_index.txt","x",encoding='utf-8')
 for key,value in dict.items():
-    f.write((str(unique_terms) + str (TermCount[key]) + str(dict[key].__len__()) +str(key)+ " " + str(value)))
+    f.write((str(unique_terms) +" "+str (TermCount[key]) +" "+ str(dict[key].__len__())+" "+str(value) + os.linesep))
+    Terms[key]=unique_terms
+    unique_terms=unique_terms+1
 
+f.close()
+
+while(1):
+    x=input("Enter the term you want to Search: ")
+    print("Listing for Term: " + x)
+    stemmed=ps.stem(x)
+    print("TERMID: "+ str(Terms[stemmed]))
+    print("Number of documents containing term: " + str(dict[stemmed].__len__()))
+    print("Term frequency in corpus: "+ str(TermCount[stemmed]))
+    print(os.linesep)
 
